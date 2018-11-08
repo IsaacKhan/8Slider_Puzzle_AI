@@ -2,27 +2,29 @@ import random, copy
 
 def UserMenu():
     #You don't need comments for this.
-    print("\t\t   *****************")
-    print("\t\t   * Slider Puzzle *")
-    print("\t\t   *****************\n")
+    print("\t\t\t*****************")
+    print("\t\t\t* Slider Puzzle *")
+    print("\t\t\t*****************\n")
     print("Enter a number corresponding to the action you wish to take")
-    print("-----------------------------------------------------------")
+    print("-----------------------------------------------------------------------")
     print("If you don't create your own starting state, or opt to have")
     print("one created for you, a default starting state will be used.")
-    print("-----------------------------------------------------------")
-    print("-1. Exit the program")
+    print("-----------------------------------------------------------------------")
+    print("Q. Exit the program")
+    print("H. Help: Redisplay the menu")
     print("1. Enter your own starting state")
     print("2. Generate a random starting state")
     print("3. Run a Breadth First Search on generated starting state")
     print("4. Run a Depth First Search on a generated starting state")
-    print("-----------------------------------------------------------\n\n")
+    print("5. Run an A Star-Misplaced Tiles Search on a generated starting state")
+    print("-----------------------------------------------------------------------\n\n")
 
 def getUserInput():
     #Loop infinitly until the user inputs valid data
     while True:
-        userInput = input()
+        userInput = str(input())
         #If userInput is not in the list here, we give a prompt and continue retrieiving input
-        if userInput not in ("-1", "1", "2", "3", "4"):
+        if userInput not in ("q", "Q", "h", "H", "1", "2", "3", "4", "5"):
             print("Select one of the listed options above.")
         else:
             break
@@ -112,6 +114,24 @@ def findEmptyPosition(startingState):
         else:
             column += 1
     return blankPosition
+
+def calculateMisplacedTiles(state):
+    goalstate = [ [1,2,3], [4,5,6], [7,8,0] ]
+    tempNode = copy.deepcopy(state)
+    i = 0
+    j = 0
+    misplaced = 0
+
+    while i < 3:
+        if tempNode[i][j] is not goalstate[i][j]:
+            misplaced += 1
+        if j is 2:
+            i += 1
+            j = 0
+        else:
+            j += 1
+ 
+    return misplaced
 
 #function that checks the value of the location up one space from our current location
 def checkUp(zeroPosition):
@@ -213,16 +233,19 @@ def checkMyDict(myDict, state):
     else:
         return False
 
-def printGoalState(stateNode):
+def printGoalState(stateNode, counter, alg, time):    
     print("Goal State Information:")
     print("---------------------------------------------------------------------")
-    print("State as a List:\n", stateNode.listState)
-    print("State as a String:\n", stateNode.stringState)
-    print("Path:\n", stateNode.path)
-    print("Depth:\n", stateNode.depth)
-
-def printPuzzle(stateNode):
-    print("----------")
-    for i in range(len(stateNode.listState)):
-        print(stateNode.listState[i])
-    print("----------")
+    print("State as a List:", stateNode.listState)
+    print("State as a String:", stateNode.stringState)
+    
+    #Only use this block when the path is actually recorded
+    if alg is not 2:
+        print("Path:")
+        for item in range(len(stateNode.path)):
+            print(stateNode.path[item])
+            if (item + 1) % 3 is 0:
+                print("")
+    print("Elapsed Time:", time)
+    print("Depth:", stateNode.depth)
+    print("Nodes created:", counter)

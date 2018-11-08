@@ -1,7 +1,11 @@
 from myLib import Classes, MiscFuncs
+import time
 
 #Our BFS Function
-def DFS(myDict, myNode, counter):
+def DFS(myDict, myNode):
+    startTime = time.time()
+    counter = 1
+
     #need our stack for this to work properly
     stack = []
 
@@ -68,8 +72,10 @@ def DFS(myDict, myNode, counter):
                 myDict[strLeftState] = counter
                 newNode = Classes.Node(strLeftState, leftState, None, [], depth) 
                 stack.append(newNode)
-
+    endTime = time.time()
     if goalStateReached is False:
         print("No Solution")
+        print("Nodes Created:", counter)
+        print("Elapsed Time:", endTime - startTime)
     else:
-        MiscFuncs.printGoalState(currentNode)
+        MiscFuncs.printGoalState(currentNode, counter, 2, endTime - startTime)

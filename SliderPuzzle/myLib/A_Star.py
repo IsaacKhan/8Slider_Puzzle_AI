@@ -1,28 +1,27 @@
-from collections import deque
+import heapq, time
 from myLib import Classes, MiscFuncs
-import time
 
 #Our BFS Function
-def BFS(myDict, myNode):
+def misplacedTiles(myDict, myNode):
     startTime = time.time()
     counter = 1
 
     #need our queue for this to work properly
-    queue = deque([])
+    priority_queue = []
 
-    #and then add to the queue
-    queue.append(myNode)
+    #and then add to the priority queue
+    heapq.heappush(priority_queue, myNode)
 
     currentNode = None
     goalStateReached = False
     depth = 0
 
-    #We are going to loop until the queue is empty or we find the goal state
-    while queue is not [] or goalStateReached is False:
-        #remove the left most item in our list, which is acting like a queue thanks to the import deque
+    #We are going to loop until the priority queue is empty or we find the goal state
+    while priority_queue is not [] or goalStateReached is False:
+        #remove the smallest item in our list, which is acting like a queue thanks to the import deque
         try:
-            currentNode = queue.popleft()
-            #In some cases, there is an indexing error when the deque is empty, this handles that
+            currentNode = heapq.heappop(priority_queue)
+            #In some cases, there is an indexing error, this handles that
         except IndexError:
             break
 
@@ -56,9 +55,9 @@ def BFS(myDict, myNode):
                 counter += 1
                 myDict[strUpState] = counter
                 upPath = currentNode.path + upState
-                #upPath.append (strUpState)
-                newNode = Classes.Node(strUpState, upState, None, upPath, depth) 
-                queue.append(newNode)
+                heuristic = MiscFuncs.calculateMisplacedTiles(currentNode.listState)
+                newNode = Classes.Node(strUpState, upState, heuristic, upPath, depth) 
+                heapq.heappush(priority_queue, newNode)
         #Remaining directional moves follow the same logic
         if right:
             rightState = MiscFuncs.swapRight(currentNode.listState, zeroPosition)
@@ -68,9 +67,9 @@ def BFS(myDict, myNode):
                 counter += 1
                 myDict[strRightState] = counter
                 rightPath = currentNode.path + rightState
-                #rightPath.append(strRightState)
-                newNode = Classes.Node(strRightState, rightState, None, rightPath, depth) 
-                queue.append(newNode)
+                heuristic = MiscFuncs.calculateMisplacedTiles(currentNode.listState)
+                newNode = Classes.Node(strRightState, rightState, heuristic, rightPath, depth) 
+                heapq.heappush(priority_queue, newNode)
         if down:
             downState = MiscFuncs.swapDown(currentNode.listState, zeroPosition)
             strDownState = MiscFuncs.createStringState(downState)
@@ -79,9 +78,9 @@ def BFS(myDict, myNode):
                 counter += 1
                 myDict[strDownState] = counter
                 downPath = currentNode.path + downState
-                #downPath.append(strDownState)
-                newNode = Classes.Node(strDownState, downState, None, downPath, depth) 
-                queue.append(newNode)
+                heuristic = MiscFuncs.calculateMisplacedTiles(currentNode.listState)
+                newNode = Classes.Node(strDownState, downState, heuristic, downPath, depth) 
+                heapq.heappush(priority_queue, newNode)
         if left:
             leftState = MiscFuncs.swapLeft(currentNode.listState, zeroPosition)
             strLeftState = MiscFuncs.createStringState(leftState)
@@ -90,9 +89,9 @@ def BFS(myDict, myNode):
                 counter += 1
                 myDict[strLeftState] = counter
                 leftPath = currentNode.path + leftState
-                #leftPath.append(strLeftState)
-                newNode = Classes.Node(strLeftState, leftState, None, leftPath, depth) 
-                queue.append(newNode)
+                heuristic = MiscFuncs.calculateMisplacedTiles(currentNode.listState)
+                newNode = Classes.Node(strLeftState, leftState, heuristic, leftPath, depth) 
+                heapq.heappush(priority_queue, newNode)
     endTime = time.time()
     #Check if the goal state was reached
     if goalStateReached is False:
@@ -101,4 +100,4 @@ def BFS(myDict, myNode):
         print("Elapsed Time:", endTime - startTime)
     else:
         #display information about last node/state
-        MiscFuncs.printGoalState(currentNode, counter, 1, endTime - startTime)
+        MiscFuncs.printGoalState(currentNode, counter, 3, endTime - startTime)
