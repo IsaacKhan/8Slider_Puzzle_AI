@@ -7,8 +7,9 @@ class Node:
         self.heuristicVal = h
         self.path = p
         self.depth = d
-    
+
     def __lt__(self, other):
         return self.heuristicVal < other.heuristicVal
+
     def __gt__(self, other):
         return self.heuristicVal > other.heuristicVal

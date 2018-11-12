@@ -19,7 +19,11 @@ def DFS(myDict, myNode):
     #We are going to loop until the stack is empty or we find the goal state
     while stack or goalStateReached is False:
         #remove item from stack and load into holder node
-        currentNode = stack.pop()
+        try:
+            currentNode = stack.pop()           
+            #In some cases, there is an indexing error when the deque is empty, this handles that
+        except IndexError:
+            break
 
         goalStateReached = MiscFuncs.checkGoalState(currentNode)
         if goalStateReached is True:
@@ -33,8 +37,6 @@ def DFS(myDict, myNode):
         left = MiscFuncs.checkLeft(zeroPosition)
         right = MiscFuncs.checkRight(zeroPosition)
 
-        depth += 1
-
         #Follows same logic as BFS, just using a stack/list as opposed to a queue/deque
         if up:
             upState = MiscFuncs.swapUp(currentNode.listState, zeroPosition)
@@ -42,6 +44,7 @@ def DFS(myDict, myNode):
             alreadyInDict = MiscFuncs.checkMyDict(myDict, strUpState)
             if alreadyInDict is False:
                 counter += 1
+                depth = currentNode.depth + 1
                 myDict[strUpState] = counter
                 newNode = Classes.Node(strUpState, upState, None, [], depth) 
                 stack.append(newNode)
@@ -51,6 +54,7 @@ def DFS(myDict, myNode):
             alreadyInDict = MiscFuncs.checkMyDict(myDict, strRightState)
             if alreadyInDict is False:
                 counter += 1
+                depth = currentNode.depth + 1
                 myDict[strRightState] = counter
                 newNode = Classes.Node(strRightState, rightState, None, [], depth) 
                 stack.append(newNode)
@@ -60,6 +64,7 @@ def DFS(myDict, myNode):
             alreadyInDict = MiscFuncs.checkMyDict(myDict, strDownState)
             if alreadyInDict is False:
                 counter += 1
+                depth = currentNode.depth + 1
                 myDict[strDownState] = counter
                 newNode = Classes.Node(strDownState, downState, None, [], depth) 
                 stack.append(newNode)
@@ -69,13 +74,16 @@ def DFS(myDict, myNode):
             alreadyInDict = MiscFuncs.checkMyDict(myDict, strLeftState)
             if alreadyInDict is False:
                 counter += 1
+                depth = currentNode.depth + 1
                 myDict[strLeftState] = counter
                 newNode = Classes.Node(strLeftState, leftState, None, [], depth) 
                 stack.append(newNode)
     endTime = time.time()
     if goalStateReached is False:
         print("No Solution")
+        print("Depth:", currentNode.depth)
         print("Nodes Created:", counter)
         print("Elapsed Time:", endTime - startTime)
+        #MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 2, endTime - startTime)
     else:
-        MiscFuncs.printGoalState(currentNode, counter, 2, endTime - startTime)
+        MiscFuncs.printGoalState(currentNode, counter, 2, endTime - startTime, myNode.listState)

@@ -40,9 +40,6 @@ def BFS(myDict, myNode):
         left = MiscFuncs.checkLeft(zeroPosition)
         right = MiscFuncs.checkRight(zeroPosition)
 
-        #Adjust the depth
-        depth += 1
-
         #do a temp State swap to comapre against dictionary if state exsist or not
         if up:
             #generate our possible state, create a string version of it, and look in the dictionary if this state exist
@@ -54,9 +51,9 @@ def BFS(myDict, myNode):
                 # add to state and counter to the dictionary, create a new node for the state,
                 # and push node onto the queue
                 counter += 1
+                depth = currentNode.depth + 1
                 myDict[strUpState] = counter
                 upPath = currentNode.path + upState
-                #upPath.append (strUpState)
                 newNode = Classes.Node(strUpState, upState, None, upPath, depth) 
                 queue.append(newNode)
         #Remaining directional moves follow the same logic
@@ -66,9 +63,9 @@ def BFS(myDict, myNode):
             alreadyInDict = MiscFuncs.checkMyDict(myDict, strRightState)
             if alreadyInDict is False:
                 counter += 1
+                depth = currentNode.depth + 1
                 myDict[strRightState] = counter
                 rightPath = currentNode.path + rightState
-                #rightPath.append(strRightState)
                 newNode = Classes.Node(strRightState, rightState, None, rightPath, depth) 
                 queue.append(newNode)
         if down:
@@ -77,9 +74,9 @@ def BFS(myDict, myNode):
             alreadyInDict = MiscFuncs.checkMyDict(myDict, strDownState)
             if alreadyInDict is False:
                 counter += 1
+                depth = currentNode.depth + 1
                 myDict[strDownState] = counter
                 downPath = currentNode.path + downState
-                #downPath.append(strDownState)
                 newNode = Classes.Node(strDownState, downState, None, downPath, depth) 
                 queue.append(newNode)
         if left:
@@ -88,17 +85,19 @@ def BFS(myDict, myNode):
             alreadyInDict = MiscFuncs.checkMyDict(myDict, strLeftState)
             if alreadyInDict is False:
                 counter += 1
+                depth = currentNode.depth + 1
                 myDict[strLeftState] = counter
                 leftPath = currentNode.path + leftState
-                #leftPath.append(strLeftState)
                 newNode = Classes.Node(strLeftState, leftState, None, leftPath, depth) 
                 queue.append(newNode)
     endTime = time.time()
     #Check if the goal state was reached
     if goalStateReached is False:
         print("No Solution")
+        print("Depth:", currentNode.depth)
         print("Nodes Created:", counter)
         print("Elapsed Time:", endTime - startTime)
+        #MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 1, endTime - startTime)
     else:
         #display information about last node/state
-        MiscFuncs.printGoalState(currentNode, counter, 1, endTime - startTime)
+        MiscFuncs.printGoalState(currentNode, counter, 1, endTime - startTime, myNode.listState)
