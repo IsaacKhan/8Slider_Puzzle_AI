@@ -11,3 +11,11 @@ Check point #1
 Check point #2
 --------------
 - A* (A Star) with Misplaced Tiles Heuristic
+
+Check point #3
+--------------
+- A* (A Star) with Manhattan Distance Heuristic
+- Report (.csv Format)
+  - Ran each algorithm ten times
+  - Averaged results for shown attributes
+  - Briefly explained differences in results
