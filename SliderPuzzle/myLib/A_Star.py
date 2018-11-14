@@ -90,7 +90,7 @@ def misplacedTiles(myDict, myNode):
         print("Depth:", currentNode.depth)
         print("Nodes Created:", counter)
         print("Elapsed Time:", endTime - startTime)
-        #MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 3, endTime - startTime)
+        MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 3, endTime - startTime)
     else:
         MiscFuncs.printGoalState(currentNode, counter, 3, endTime - startTime, myNode.listState)
 
@@ -182,6 +182,6 @@ def manhattanDistance(myDict, myNode):
         print("Depth:", currentNode.depth)
         print("Nodes Created:", counter)
         print("Elapsed Time:", endTime - startTime)
-        #MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 4, endTime - startTime)
+        MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 4, endTime - startTime)
     else:
         MiscFuncs.printGoalState(currentNode, counter, 4, endTime - startTime, myNode.listState)

@@ -97,7 +97,7 @@ def BFS(myDict, myNode):
         print("Depth:", currentNode.depth)
         print("Nodes Created:", counter)
         print("Elapsed Time:", endTime - startTime)
-        #MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 1, endTime - startTime)
+        MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 1, endTime - startTime)
     else:
         #display information about last node/state
         MiscFuncs.printGoalState(currentNode, counter, 1, endTime - startTime, myNode.listState)

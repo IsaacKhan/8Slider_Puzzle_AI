@@ -270,7 +270,7 @@ def printGoalState(stateNode, counter, alg, time, startingState):
     print("Nodes created:", counter)
     print("Elapsed Time:", time)
 
-    #createCSV(stateNode, counter, alg, time, startingState)
+    createCSV(stateNode, counter, alg, time, startingState)
 
 def createCSV(stateNode, counter, alg, time, startingState):
 
@@ -283,7 +283,7 @@ def createCSV(stateNode, counter, alg, time, startingState):
     elif alg is 4:
         header = "A* Manhattan Distance Data"
 
-    with open("Slider_Puzzle_Report.csv", 'a', newline = '') as file:
+    with open("Slider_Puzzle_Data.csv", 'a', newline = '') as file:
         theWriter = csv.writer(file)
 
         theWriter.writerow([header])
@@ -313,7 +313,7 @@ def creatCSV_NS(stateNode, startingState, counter, alg, time):
     elif alg is 4:
         header = "A* Manhattan Distance Data"
     
-    with open("Slider_Puzzle_Report.csv", 'a', newline = '') as file:
+    with open("Slider_Puzzle_Data.csv", 'a', newline = '') as file:
         theWriter = csv.writer(file)
 
         theWriter.writerow([header])

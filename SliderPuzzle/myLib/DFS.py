@@ -84,6 +84,6 @@ def DFS(myDict, myNode):
         print("Depth:", currentNode.depth)
         print("Nodes Created:", counter)
         print("Elapsed Time:", endTime - startTime)
-        #MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 2, endTime - startTime)
+        MiscFuncs.creatCSV_NS(currentNode, myNode.listState, counter, 2, endTime - startTime)
     else:
         MiscFuncs.printGoalState(currentNode, counter, 2, endTime - startTime, myNode.listState)
