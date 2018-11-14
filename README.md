@@ -15,7 +15,8 @@ Check point #2
 Check point #3
 --------------
 - A* (A Star) with Manhattan Distance Heuristic
-- Report (.csv Format)
+- Report (.pdf Format)
   - Ran each algorithm ten times
   - Averaged results for shown attributes
   - Briefly explained differences in results
+  - Data for report is included as .csv file
